@@ -1,10 +1,5 @@
 services:
   web:
-    build:
-      context: app
-      target: builder
-    # flask requires SIGINT to stop gracefully
-    # (default stop signal from Compose is SIGTERM)
-    stop_signal: SIGINT
+    image: "registry.cn-shanghai.aliyuncs.com/wego/embedding_api:latest"
     ports:
       - "8000:8000"
