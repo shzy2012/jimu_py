@@ -39,12 +39,12 @@ def hello():
 @app.route('/embedding', methods=['POST'])
 def embedding():
     try:
-        sentence = request.get_json()["sentence"]
+        sentence = request.get_json()["sentence"].encode('utf-8')
         print("开始处理:", sentence)
         embeddings = model.encode(sentence)
         data = {
             "sentence": sentence,
-            "embeddings": embeddings.tolist(),
+            "vector": embeddings.tolist(),
         }
         print("处理完成:", sentence)
         return json.dumps(data)
@@ -81,17 +81,19 @@ def embeddingFile():
         embeddings = model.encode(sentences)
         result = []
         for i in range(len(segments)):
-            # [segments[i], embeddings[i]]
             result.append(
-                {"page_content": segments[i].page_content, "metadata": segments[i].metadata, "vector": embeddings[i].tolist()})
-            # print(result[i])
+                {"page_content": segments[i].page_content, "metadata":  {
+                    "source": file.filename,
+                    "page": segments[i].metadata.get("page")
+                }, "vector": embeddings[i].tolist()})
 
+        print("处理完成:", len(result))
         return json.dumps(result)
     except Exception as e:
-        return jsonify(code=412, msg=str(e)), 412
+        print("处理失败:", e)
+        return str(e)
     finally:
         os.remove(filepath)
-        print("处理完成:", filepath)
 
 
 if __name__ == '__main__':

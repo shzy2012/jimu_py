@@ -1,7 +1,7 @@
 from langchain_text_splitters import CharacterTextSplitter
 from langchain_community.document_loaders import PyPDFLoader
 
-loader = PyPDFLoader("example.pdf")
+loader = PyPDFLoader("big.pdf")
 pages = loader.load_and_split()
 # # pages[4].page_content
 # print(pages[0].metadata)
