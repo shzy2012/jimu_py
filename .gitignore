@@ -6,7 +6,7 @@ __pycache__/
 .DS_Store
 # C extensions
 *.so
-
+*.pdf
 # Distribution / packaging
 .Python
 build/
